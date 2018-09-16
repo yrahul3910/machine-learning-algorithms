@@ -1,0 +1,44 @@
+>>> import numpy as np
+>>> from sklearn.datasets import fetch_mldata
+>>> from sklearn.linear_model import LogisticRegression
+>>> from sklearn.model_selection import train_test_split
+>>> from sklearn.preprocessing import StandardScaler
+>>> mnist = fetch_mldata('MNIST original')
+>>> X = mnist.data.astype('float64')
+>>> Y = mnist.target
+>>> X_train, X_test, Y_train, Y_test = train_test_split(X, Y, train_size=0.7)
+/usr/local/lib64/python3.6/site-packages/sklearn/model_selection/_split.py:2026: FutureWarning: From version 0.21, test_size will always complement train_size unless both are specified.
+  FutureWarning)
+>>> 
+>>> model = LogisticRegression()
+>>> model.fit(X_train, Y_train)
+LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+          intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
+          penalty='l2', random_state=None, solver='liblinear', tol=0.0001,
+          verbose=0, warm_start=False)
+>>> import pickle
+>>> f = open("model.pkl", "wb")
+>>> pickle.dump(model, f)
+>>> f.close()
+>>> from sklearn.metrics import classification_report, accuracy_score
+>>> predictions = model.predict(X_test)
+>>> print(accuracy_score(predictions, Y_test))
+0.9117619047619048
+>>> print(classification_report(predictions, Y_test))
+             precision    recall  f1-score   support
+
+        0.0       0.97      0.95      0.96      2121
+        1.0       0.97      0.94      0.96      2443
+        2.0       0.88      0.91      0.89      2001
+        3.0       0.89      0.89      0.89      2102
+        4.0       0.92      0.92      0.92      2108
+        5.0       0.86      0.89      0.88      1814
+        6.0       0.96      0.94      0.95      2129
+        7.0       0.92      0.93      0.93      2134
+        8.0       0.86      0.87      0.86      2061
+        9.0       0.88      0.87      0.88      2087
+
+avg / total       0.91      0.91      0.91     21000
+
+>>> 
+
